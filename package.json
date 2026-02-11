@@ -1,0 +1,36 @@
+{
+  "name": "commerce-backend-helper",
+  "displayName": "SAP Backend Helper",
+  "version": "1.0.0",
+  "description": "Helper extension for SAP Commerce Cloud backend development",
+  "publisher": "commerce-backend-helper",
+  "main": "./dist/extensions.js",
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "vscode": "^1.107.0"
+  },
+  "activationEvents": [
+    "onCommand:sapCommerceHelper.open"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "sapCommerceHelper.open",
+        "title": "SAP Commerce Helper"
+      }
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "@types/vscode": "^1.107.0",
+    "typescript": "^5.9.3"
+  }
+}
