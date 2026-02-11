@@ -124,7 +124,8 @@ export const ITEMS: WizardItem[] = [
       }
     ],
     template: data => `
-// Core Items
+// ${toLowercase(data.project)}core-items.xml
+
 <itemtype code="${data.name}Component" extends="CMSParagraphComponent" autocreate="true" generate="true">
     <deployment table="${toLowercase(data.name)}" typecode="${data.typeCode ? data.typeCode : ''}"/>
     ${data.description ? `<description>${data.description}</description>` : ''}
@@ -138,7 +139,7 @@ export const ITEMS: WizardItem[] = [
     </attributes>
 </itemtype>
 
-// Controller Constants
+// ControllerConstants.java
 import br.com.${data.project}.core.model.components.${data.name}Model;
 
 String ${capitalize(data.name)}Component = _Prefix + ${data.name}Model.TYPECODE + _Suffix;
@@ -333,6 +334,15 @@ ${(data.attributes || [])
       }
     ],
     template: data => `
+// ${toLowercase(data.project)}core-locales_en.properties
+
+type.${capitalize(data.name)}.name = ${capitalize(data.name)}
+${(data.attributes || []).map((a:any) => `
+  type.${capitalize(data.name)}.${a.name}.name = ${capitalize(a.name)}
+`).join('\n')}
+
+// ${toLowercase(data.project)}core-items.xml
+
 <itemtype code="${data.name}" autocreate="true" generate="true">
     <deployment table="${toLowercase(data.name)}" typecode="${data.typeCode ? data.typeCode : ''}"/>
     ${data.description ? `<description>${data.description}</description>` : ''}
@@ -421,6 +431,11 @@ public class ${capitalize(data.name)}Controller {
       },
     ],
     template: data => `
+// ${data.project}core-spring.xml
+
+<alias alias="${toLowercase(data.name)}Service" default="default${capitalize(data.name)}Service"/>
+<bean id="default${capitalize(data.name)}Service" class="de.hybris.${data.project}.core.service.impl.Default${capitalize(data.name)}Service"/>
+
 // ${data.name}Service.java
 package de.hybris.${data.project}.core.service;
 import de.hybris.${data.project}.model.${capitalize(data.name)}Model;
@@ -433,6 +448,7 @@ public interface ${capitalize(data.name)}Service {
 }
 
 //Default${data.name}Service.java
+
 package de.hybris.${data.project}.core.service.impl;
 
 import de.hybris.${data.project}.core.dao.${capitalize(data.name)}Dao;
@@ -489,7 +505,13 @@ public class Default${capitalize(data.name)}Service implements ${capitalize(data
       },
     ],
     template: data => `
+// ${data.project}core-spring.xml
+
+<alias alias="${toLowercase(data.name)}Dao" default="default${capitalize(data.name)}Dao"/>
+<bean id="default${capitalize(data.name)}Dao" class="de.hybris.${data.project}.core.dao.impl.Default${capitalize(data.name)}Dao"/>
+
 // ${capitalize(data.name)}Dao.java
+
 package de.hybris.${data.project}.core.dao;
 
 import de.hybris.${data.project}.core.model.${capitalize(data.name)}Model;
@@ -502,6 +524,7 @@ public interface ${capitalize(data.name)} {
 }
 
 // Default${capitalize(data.name)}Dao.java
+
 package de.hybris.${data.project}.core.dao.impl;
 
 import de.hybris.${data.project}.core.dao.${capitalize(data.name)}Dao;
@@ -589,6 +612,15 @@ public class Default${capitalize(data.name)}Dao implements ${capitalize(data.nam
       }
     ],
     template: data => `
+// ${data.project}core-spring.xml
+
+<alias alias="${toLowercase(data.name)}Dao" default="default${capitalize(data.name)}Dao"/>
+<bean id="default${capitalize(data.name)}Dao" class="de.hybris.${data.project}.core.dao.impl.Default${capitalize(data.name)}Dao"/>
+
+
+<alias alias="${toLowercase(data.name)}Service" default="default${capitalize(data.name)}Service"/>
+<bean id="default${capitalize(data.name)}Service" class="de.hybris.${data.project}.core.service.impl.Default${capitalize(data.name)}Service"/>
+
 // ${data.name}Controller.java
 
 import de.hybris.${data.project}.core.service${capitalize(data.name)}Service;
@@ -623,7 +655,7 @@ public interface ${capitalize(data.name)}Service {
   ${capitalize(data.name)}Dto get${capitalize(data.name)}(String id);
 }
 
-//Default${data.name}Service.java
+// Default${data.name}Service.java
 package de.hybris.${data.project}.core.service.impl;
 
 import de.hybris.${data.project}.core.dao.${capitalize(data.name)}Dao;
@@ -658,6 +690,7 @@ public class Default${capitalize(data.name)}Service implements ${capitalize(data
 }
 
 // ${capitalize(data.name)}Dao.java
+
 package de.hybris.${data.project}.core.dao;
 
 import de.hybris.${data.project}.core.model.${capitalize(data.name)}Model;
@@ -670,6 +703,7 @@ public interface ${capitalize(data.name)}Dao {
 }
 
 // Default${capitalize(data.name)}Dao.java
+
 package de.hybris.${data.project}.core.dao.impl;
 
 import de.hybris.${data.project}.core.dao.${capitalize(data.name)}Dao;
