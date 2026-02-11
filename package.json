@@ -13,6 +13,9 @@
   "engines": {
     "vscode": ">=1.107.0"
   },
+  "extensionPack": [
+    "cardinal90.multi-cursor-case-preserve"
+  ],
   "activationEvents": [
     "onCommand:sapCommerceHelper.open"
   ],
